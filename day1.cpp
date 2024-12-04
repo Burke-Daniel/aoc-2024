@@ -1,5 +1,8 @@
-#include <stdlib.h>
-#include <stdio.h>
+#include <cstdlib>
+#include <cstdio>
+#include <cstring>
+
+#include <map>
 
 #define MAX_LEN (4096U)
 
@@ -46,7 +49,7 @@ int main(void) {
         total_distance += distances[j];
     }
 
-    printf("\nTotal distance: %d\n", total_distance);
+    printf("\nTotal distance: %lu\n", total_distance);
 
     printf("\nPart two:\n");
 
@@ -55,23 +58,20 @@ int main(void) {
     // list and then walk the first list and add up
     
     // Very naive map where index is the number and value is the frequency 
-    size_t *list_2_frequency_map = malloc(sizeof(size_t) * list2[i - 1]);
-    memset(list_2_frequency_map, 0, sizeof(size_t) * list2[i - 1]);
+    std::map<int, size_t> frequency_map;
 
     for (size_t j = 0; j < i; j++) {
-        list_2_frequency_map[list2[j]] += 1;
-        printf("Saw number %d %d times\n", list2[j], list_2_frequency_map[list2[j]]);
+        frequency_map[list2[j]] += 1;
+        printf("Saw number %d %lu times\n", list2[j], frequency_map[list2[j]]);
     }
 
     size_t similarity_score = 0;
 
     for (size_t j = 0; j < i; j++) {
-        similarity_score += list1[j] * list_2_frequency_map[list1[j]];
+        similarity_score += list1[j] * frequency_map[list1[j]];
     }
 
-    printf("\nSimilarity score: %d\n", similarity_score);
-
-    free(list_2_frequency_map);
+    printf("\nSimilarity score: %lu\n", similarity_score);
 
     return 0;
 }
